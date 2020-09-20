@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 find_package(JNI REQUIRED)
 include_directories(${JNI_INCLUDE_DIRS})
-add_library(LowLevelInput c/lowLevelInput.cpp)
+add_library(LowLevelInput cpp/lowLevelInput.cpp)

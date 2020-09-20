@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'application'
     id 'cpp'
+    id 'c'
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'idea'
 }
@@ -44,17 +45,17 @@ model {
             targetPlatform "x64"
             binaries.all {
                 if (targetPlatform.operatingSystem.macOsX) {
-                    cCompiler.args '-I', "${Jvm.current().javaHome}/include"
-                    cCompiler.args '-I', "${Jvm.current().javaHome}/include/darwin"
-                    cCompiler.args '-mmacosx-version-min=10.9'
+                    cppCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                    cppCompiler.args '-I', "${Jvm.current().javaHome}/include/darwin"
+                    cppCompiler.args '-mmacosx-version-min=10.9'
                     linker.args '-mmacosx-version-min=10.9'
                 } else if (targetPlatform.operatingSystem.linux) {
-                    cCompiler.args '-I', "${Jvm.current().javaHome}/include"
-                    cCompiler.args '-I', "${Jvm.current().javaHome}/include/linux"
-                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                    cppCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                    cppCompiler.args '-I', "${Jvm.current().javaHome}/include/linux"
+                    cppCompiler.args '-D_FILE_OFFSET_BITS=64'
                 } else if (targetPlatform.operatingSystem.windows) {
-                    cCompiler.args "-I${Jvm.current().javaHome}/include"
-                    cCompiler.args "-I${Jvm.current().javaHome}/include/win32"
+                    cppCompiler.args "-I${Jvm.current().javaHome}/include"
+                    cppCompiler.args "-I${Jvm.current().javaHome}/include/win32"
                     linker.args "Shlwapi.lib", "Advapi32.lib"
                 }
             }
