@@ -1,5 +1,7 @@
 # DakkraKVM
-Cross platform KVM Written in Java. Only works with 64bit systems.
+Cross platform KVM Written in Java.
+
+Currently, supports Windows and Mac. Linux support pending. 64bit only. 
 
 # Build
  - Gradle 6.3
