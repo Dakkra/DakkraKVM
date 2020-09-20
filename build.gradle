@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'application'
     id 'c'
+    id 'cpp'
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'idea'
 }
@@ -46,8 +47,8 @@ model {
                 if (targetPlatform.operatingSystem.macOsX) {
                     cCompiler.args '-I', "${Jvm.current().javaHome}/include"
                     cCompiler.args '-I', "${Jvm.current().javaHome}/include/darwin"
-                    cCompiler.args '-mmacosx-version-min=10.4'
-                    linker.args '-mmacosx-version-min=10.4'
+                    cCompiler.args '-mmacosx-version-min=10.9'
+                    linker.args '-mmacosx-version-min=10.9'
                 } else if (targetPlatform.operatingSystem.linux) {
                     cCompiler.args '-I', "${Jvm.current().javaHome}/include"
                     cCompiler.args '-I', "${Jvm.current().javaHome}/include/linux"
@@ -64,10 +65,13 @@ model {
 
 task delLibraries(type: Delete) {
     delete("src/main/resources/lowLevelInput.dll")
+    delete("src/main/resources/liblowLevelInput.dylib")
 }
 
 task copyNatives(type: Copy) {
     from("${buildDir}/libs/lowLevelInput/shared/lowLevelInput.dll")
+    into("src/main/resources")
+    from("${buildDir}/libs/lowLevelInput/shared/liblowLevelInput.dylib")
     into("src/main/resources")
 }
 copyNatives.dependsOn('lowLevelInputSharedLibrary')
