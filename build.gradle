@@ -3,7 +3,6 @@ import org.gradle.internal.jvm.Jvm
 plugins {
     id 'java'
     id 'application'
-    id 'c'
     id 'cpp'
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'idea'
