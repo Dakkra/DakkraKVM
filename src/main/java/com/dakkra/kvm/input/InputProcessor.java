@@ -9,6 +9,10 @@ public class InputProcessor {
      */
     public native void print();
 
+    public void printJava() {
+        System.out.println("This is from java, called by c++");
+    }
+
     /**
      * Gets the instance of this InputProcessor; Creates the instance if none already exists
      *
