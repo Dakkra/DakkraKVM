@@ -25,3 +25,6 @@ hs_err_pid*
 *.idea/
 *.gradle/
 gradle/*
+src/main/resources/*.dll
+src/main/resources/*.so
+src/main/resources/*.dylib

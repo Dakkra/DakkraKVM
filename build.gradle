@@ -1,15 +1,18 @@
+import org.gradle.internal.jvm.Jvm
+
 plugins {
     id 'java'
-    id 'idea'
     id 'application'
+    id 'c'
     id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'idea'
 }
 
 group 'com.dakkra'
 version '1.0-SNAPSHOT'
 
 //Gradle 6.3
-application{
+application {
     mainClassName = 'com.dakkra.kvm.DakkraKVM'
 }
 
@@ -18,9 +21,57 @@ repositories {
 }
 
 javafx {
-    modules = [ 'javafx.controls' ]
+    modules = ['javafx.controls']
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+test {
+    systemProperty "java.library.path", file("${buildDir}/libs/lowLevelInput/shared").absolutePath
+}
+
+model {
+    platforms {
+        x64 {
+            architecture "x86_64"
+        }
+    }
+
+    components {
+        lowLevelInput(NativeLibrarySpec) {
+            targetPlatform "x64"
+            binaries.all {
+                if (targetPlatform.operatingSystem.macOsX) {
+                    cCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                    cCompiler.args '-I', "${Jvm.current().javaHome}/include/darwin"
+                    cCompiler.args '-mmacosx-version-min=10.4'
+                    linker.args '-mmacosx-version-min=10.4'
+                } else if (targetPlatform.operatingSystem.linux) {
+                    cCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                    cCompiler.args '-I', "${Jvm.current().javaHome}/include/linux"
+                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                } else if (targetPlatform.operatingSystem.windows) {
+                    cCompiler.args "-I${Jvm.current().javaHome}/include"
+                    cCompiler.args "-I${Jvm.current().javaHome}/include/win32"
+                    linker.args "Shlwapi.lib", "Advapi32.lib"
+                }
+            }
+        }
+    }
+}
+
+task delLibraries(type: Delete) {
+    delete("src/main/resources/lowLevelInput.dll")
+}
+
+task copyNatives(type: Copy) {
+    from("${buildDir}/libs/lowLevelInput/shared/lowLevelInput.dll")
+    into("src/main/resources")
+}
+copyNatives.dependsOn('lowLevelInputSharedLibrary')
+
+test.dependsOn 'lowLevelInputSharedLibrary'
+processResources.dependsOn('copyNatives')
+clean.dependsOn("delLibraries")
