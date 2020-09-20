@@ -71,8 +71,6 @@ public class DakkraKVM extends Application {
     public static void main(String[] args) {
         System.out.println("Starting DakkraKVM...");
 
-        System.out.println("Pull me in!");
-
         boolean libraries_loaded = loadLibraries();
         if (libraries_loaded) {
             init_jfx();
