@@ -23,6 +23,7 @@ import java.util.UUID;
 public class DakkraKVM extends Application {
 
     private static ObservableList<Screen> displays;
+    private static boolean keepalive = true;
 
     /**
      * Attempts to load the native libraries for use with this application
@@ -78,6 +79,10 @@ public class DakkraKVM extends Application {
             System.out.println("Skipping services due to failure to load native libraries");
         }
 
+        while(keepalive){
+
+        }
+
         System.out.println("Exitting DakkraKVM");
     }
 
@@ -106,7 +111,6 @@ public class DakkraKVM extends Application {
     public void start(Stage primaryStage) {
         System.out.println("Detecting displays...");
         displays = Screen.getScreens();
-        //..Do UI stuff
         Platform.exit();
     }
 }

@@ -5,12 +5,16 @@ public class InputProcessor {
     private static InputProcessor singleton;
 
     /**
-     * Test method to see if JNI implementation works. Will remove soon
+     * Registers the InputProcessor with the native keyboard and mouse input
      */
-    public native void print();
+    public native void register_key_listener();
 
-    public void printJava() {
-        System.out.println("This is from java, called by c++");
+    public void native_key_down(int keycode) {
+        System.out.println("Key Down: " + keycode);
+    }
+
+    public void native_key_up(int keycode) {
+        System.out.println("Key Up: " + keycode);
     }
 
     /**
@@ -25,7 +29,6 @@ public class InputProcessor {
 
     private InputProcessor() {
         System.out.println("Created input processor");
-        System.out.println("Calling native method");
-        print();
+        System.out.println("Registering native input handler");
     }
 }

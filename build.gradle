@@ -55,7 +55,7 @@ model {
                 } else if (targetPlatform.operatingSystem.windows) {
                     cppCompiler.args "-I${Jvm.current().javaHome}/include"
                     cppCompiler.args "-I${Jvm.current().javaHome}/include/win32"
-                    linker.args "Shlwapi.lib", "Advapi32.lib"
+                    linker.args "Shlwapi.lib", "Advapi32.lib", "User32.lib"
                 }
             }
         }
