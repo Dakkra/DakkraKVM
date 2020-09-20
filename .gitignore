@@ -28,3 +28,4 @@ gradle/*
 src/main/resources/*.dll
 src/main/resources/*.so
 src/main/resources/*.dylib
+src/LowLevelInput/cmake-build-debug
