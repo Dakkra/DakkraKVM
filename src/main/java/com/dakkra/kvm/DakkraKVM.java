@@ -8,6 +8,7 @@ Project uses MIT license
 
 package com.dakkra.kvm;
 
+import com.dakkra.kvm.network.DisplayServer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -29,6 +30,8 @@ public class DakkraKVM extends Application {
             }
         }
 
+        DisplayServer displayServer = DisplayServer.getServer(displays);
+
         System.out.println("Exiting DakkraKVM");
     }
 
@@ -36,6 +39,7 @@ public class DakkraKVM extends Application {
     public void start(Stage primaryStage) {
         System.out.println("Detecting displays...");
         displays = Screen.getScreens();
+        //..Do UI stuff
         Platform.exit();
     }
 }
