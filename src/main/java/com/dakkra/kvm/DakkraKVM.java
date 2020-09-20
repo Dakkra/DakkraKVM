@@ -24,7 +24,12 @@ public class DakkraKVM extends Application {
 
     private static ObservableList<Screen> displays;
 
-    private static void loadLibraries() {
+    /**
+     * Attempts to load the native libraries for use with this application
+     *
+     * @return true if libraries are loaded, false if not or there was an error
+     */
+    private static boolean loadLibraries() {
         System.out.println("Loading native libraries");
 
         try {
@@ -52,18 +57,34 @@ public class DakkraKVM extends Application {
                 fileOut.getParentFile().mkdirs();
                 fileOut.createNewFile();
                 IOUtils.copy(in, new FileOutputStream(fileOut));
-            } catch (Exception fileNotFoundException) {
+            } catch (Exception exception) {
                 System.out.println("Couldn't initialize libraries in a temporary directory");
+                return false;
             }
 
             System.load(fileOut.toString());
         }
+        return true;
     }
 
     public static void main(String[] args) {
         System.out.println("Starting DakkraKVM...");
 
-        loadLibraries();
+        boolean libraries_loaded = loadLibraries();
+        if (libraries_loaded) {
+            init_jfx();
+            init_services();
+        } else {
+            System.out.println("Skipping services due to failure to load native libraries");
+        }
+
+        System.out.println("Exitting DakkraKVM");
+    }
+
+    /**
+     * Initialize the JavaFX client. This will consequently update the displays array
+     */
+    private static void init_jfx() {
         launch();
         if (displays.size() > 0) {
             System.out.println("Found " + displays.size() + " displays");
@@ -71,11 +92,14 @@ public class DakkraKVM extends Application {
                 System.out.println(s.toString());
             }
         }
+    }
 
+    /**
+     * Initialize the singleton services
+     */
+    private static void init_services() {
         DisplayServer displayServer = DisplayServer.getServer(displays);
         InputProcessor inputProcessor = InputProcessor.getInstance();
-
-        System.out.println("Exiting DakkraKVM");
     }
 
     @Override

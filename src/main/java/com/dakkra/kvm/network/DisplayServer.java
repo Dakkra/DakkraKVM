@@ -17,6 +17,12 @@ public class DisplayServer implements ListChangeListener<Screen> {
     private ServerSocket serverSocket;
     private Socket clientSocket;
 
+    /**
+     * Gets the display server singleton; Creates it if it doesn't exist
+     *
+     * @param displays Displays to register with this singleton. Only sets on creation
+     * @return DisplayServer singleton
+     */
     public static DisplayServer getServer(ObservableList<Screen> displays) {
         if (singleton == null) singleton = new DisplayServer(displays);
         return singleton;
