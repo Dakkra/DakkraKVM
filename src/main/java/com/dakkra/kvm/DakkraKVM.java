@@ -36,12 +36,16 @@ public class DakkraKVM extends Application {
 
             //Get correct library for operating system
             String operating_system = System.getProperty("os.name").toLowerCase();
-            if (operating_system.contains("win")){lib_name = "lowLevelInput.dll";}
-            else if (operating_system.contains("mac")){lib_name = "liblowLevelInput.dylib";}
-            else {lib_name = "libLowLevelInput.so";}
+            if (operating_system.contains("win")) {
+                lib_name = "lowLevelInput.dll";
+            } else if (operating_system.contains("mac")) {
+                lib_name = "liblowLevelInput.dylib";
+            } else {
+                lib_name = "libLowLevelInput.so";
+            }
 
             String path = "dakkralibs/" + UUID.randomUUID().toString() + "t-" + System.currentTimeMillis() + "/";
-            in =DakkraKVM.class.getResourceAsStream("/" + lib_name);
+            in = DakkraKVM.class.getResourceAsStream("/" + lib_name);
             File fileOut = new File(System.getProperty("java.io.tmpdir") + "/" + path + lib_name);
 
             try {
